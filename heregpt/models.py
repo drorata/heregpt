@@ -7,8 +7,9 @@ class TaskBase(BaseModel):
     prompt: str | None = None
 
     def build_prompt(self):
-        self.prompt = f"""Using the tool `{self.tool}` give a single suggestion without explanations in a
-code block format that will execute the task sourrounded by three backticks:
+        self.prompt = f"""Using the tool `{self.tool}` give a single
+ suggestion without explanations in a code block format that will
+ execute the task sourrounded by three backticks:
 ```
 {self.task}
 ```
