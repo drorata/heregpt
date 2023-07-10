@@ -1,19 +1,23 @@
 import typer
-from dotenv import load_dotenv
 from rich import print
 from rich.console import Console
-from heregpt.models import TaskBase
+
 from heregpt import utils
+from heregpt.models import TaskBase
 
 app = typer.Typer()
-
-load_dotenv(override=False)
 
 console = Console()
 
 
 @app.command()
 def main(tool: str, task: str):
+    if not utils.set_openai_api_key():
+        console.print(
+            "The environment variable OPENAI_API_KEY is not defined. More details here:"
+        )
+        console.print(utils.set_openai_api_key.__doc__)
+        raise typer.Exit(42)
     task = TaskBase(tool=tool, task=task)
     task.build_prompt()
     console.print("About to send the following prompt🚀", style="#5f5fff")
