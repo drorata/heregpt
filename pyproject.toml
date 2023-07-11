@@ -5,6 +5,8 @@ description = "Have ChatGPT right_here_ within your shell"
 authors = ["Dror Atariah <drorata@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+repository = "https://github.com/drorata/heregpt"
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
