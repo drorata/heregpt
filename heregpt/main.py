@@ -1,4 +1,5 @@
 import os
+from dataclasses import dataclass
 
 import typer
 from rich import print
@@ -13,14 +14,21 @@ app = typer.Typer()
 console = Console()
 
 
-@app.command()
-def main(
-    tool: Annotated[str, typer.Argument(help="Name of the tool you want to use")],
-    task: Annotated[str, typer.Argument(help="Describe the task you want to execute")],
-    openai_key: Annotated[
-        str, typer.Option(help="Manually provided API key for OpenAI")
-    ] = None,
+@dataclass
+class CommonOptions:
+    # See this comment:
+    # https://github.com/tiangolo/typer/issues/153#issuecomment-1001993791
+    # for more details
+    openai_api_key: str
+
+
+@app.callback()
+def common(
+    ctx: typer.Context,
+    openai_key: str = typer.Option(None, help="Manually provided API key for OpenAI"),
 ):
+    """Common Entry Point"""
+    ctx.obj = CommonOptions(openai_key)
     if openai_key is not None:
         os.environ["OPENAI_API_KEY"] = openai_key
     if openai_key is None:
@@ -31,6 +39,19 @@ def main(
             )
             console.print(utils.set_openai_api_key.__doc__)
             raise typer.Exit(42)
+
+
+@app.command()
+def generic(prompt: Annotated[str, typer.Argument(help="Provide a generic prompt")]):
+    response = utils.get_completion(prompt)
+    console.print(response)
+
+
+@app.command()
+def tool_help(
+    tool: Annotated[str, typer.Argument(help="Name of the tool you want to use")],
+    task: Annotated[str, typer.Argument(help="Describe the task you want to execute")],
+):
     task = TaskBase(tool=tool, task=task)
     task.build_prompt()
     console.print("About to send the following prompt🚀", style="#5f5fff")
