@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "heregpt"
-version = "0.1.2"
+version = "0.2.0"
 description = "Have ChatGPT right_here_ within your shell"
 authors = ["Dror Atariah <drorata@gmail.com>"]
 license = "MIT"
