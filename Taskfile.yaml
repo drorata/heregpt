@@ -5,4 +5,4 @@ tasks:
     cmds:
       - poetry run black --check --preview .
       - poetry run flake8 .
-      - poetry run isort --df .
+      - poetry run isort -c --df .
