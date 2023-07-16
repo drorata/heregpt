@@ -1,13 +1,13 @@
 import os
 from dataclasses import dataclass
+from heregpt import utils
+from heregpt.models import TaskBase
 
 import typer
 from rich import print
 from rich.console import Console
 from typing_extensions import Annotated
 
-from heregpt import utils
-from heregpt.models import TaskBase
 
 app = typer.Typer()
 
